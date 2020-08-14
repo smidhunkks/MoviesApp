@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/model/homecard.dart';
 import 'package:movieapp/networking/homefetch.dart';
+import 'package:movieapp/networking/moviedDetailsfetch.dart';
 
 import 'package:movieapp/screens/moviedetail.dart';
 
@@ -14,7 +15,6 @@ class _HomepageState extends State<Homepage> {
   int len;
   @override
   void initState() {
-    // TODO: implement initState
     //Future results = fetchhome();
     // print(results);
     receive();
@@ -68,8 +68,9 @@ class _HomepageState extends State<Homepage> {
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     print(results[index].id);
+                    await detailsFetch(results[index].id);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

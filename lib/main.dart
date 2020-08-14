@@ -9,12 +9,11 @@ void main() {
 class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var size;
     return MaterialApp(
       theme: ThemeData.dark(),
       home: SafeArea(
         child: Scaffold(
-          bottomNavigationBar: BottomNav(),
+          //bottomNavigationBar: BottomNav(),
           body: Homepage(),
         ),
       ),
