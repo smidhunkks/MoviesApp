@@ -1,8 +1,39 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:movieapp/model/homecard.dart';
+import 'package:movieapp/networking/homefetch.dart';
 
-class Homepage extends StatelessWidget {
+import 'package:movieapp/screens/moviedetail.dart';
+
+class Homepage extends StatefulWidget {
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  List<HomeCard> results;
+  int len;
+  @override
+  void initState() {
+    // TODO: implement initState
+    //Future results = fetchhome();
+    // print(results);
+    receive();
+    super.initState();
+  }
+
+  void receive() async {
+    try {
+      results = await fetchhome();
+      setState(() {
+        len = results.length;
+      });
+
+      print(len);
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,14 +61,22 @@ class Homepage extends StatelessWidget {
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: .65,
+                childAspectRatio: .58,
               ),
-              itemCount: 10,
+              itemCount: len,
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * .03),
               physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () => print(index),
+                  onTap: () {
+                    print(results[index].id);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MovieDetail(id: results[index].id),
+                        ));
+                  },
                   child: Container(
                     margin:
                         EdgeInsets.all(MediaQuery.of(context).size.width * .01),
@@ -57,14 +96,14 @@ class Homepage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         ClipRect(
-                          child: Image.asset('images/img.jpg'),
-                          /*Image.network(
-                          'https://image.tmdb.org/t/p/w500/vFIHbiy55smzi50RmF8LQjmpGcx.jpg',
-                          fit: BoxFit.fill,
-                          //height: 150,
-                        ),*/
+                          child: //Image.asset('images/img.jpg'),
+                              Image.network(
+                            'https://image.tmdb.org/t/p/w500/${results[index].poster}',
+                            fit: BoxFit.fill,
+                            //height: 150,
+                          ),
                         ),
-                        Text("Kissing Booth"),
+                        Text(results[index].name),
                       ],
                     ),
                   ),
