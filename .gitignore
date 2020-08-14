@@ -32,6 +32,7 @@
 
 # Web related
 lib/generated_plugin_registrant.dart
+lib/constants/constants.dart
 
 # Symbolication related
 app.*.symbols
@@ -43,4 +44,3 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 .env
-lib/constants/constants.dart
