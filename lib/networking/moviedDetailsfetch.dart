@@ -13,17 +13,18 @@ void detailsFetch(id) async {
   var decodedRes = jsonDecode(res.body);
 
   detail = Moviedetails(
-    title: decodedRes['original_title'],
-    genre: decodedRes["genres"],
-    overview: decodedRes['overview'],
-    poster: decodedRes['poster_path'],
-    tagline: decodedRes['tagline'],
-  );
+      title: decodedRes['original_title'],
+      genre: decodedRes["genres"],
+      overview: decodedRes['overview'],
+      poster: decodedRes['poster_path'],
+      tagline: decodedRes['tagline'],
+      release: decodedRes['release_date']);
 
   detail.genre.forEach(
     (elem) {
       gen.add(
         Container(
+          margin: EdgeInsets.only(top: 10),
           padding: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -37,5 +38,5 @@ void detailsFetch(id) async {
     },
   );
 
-  print(gen);
+  // print(gen);
 }

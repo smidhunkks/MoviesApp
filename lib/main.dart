@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/bottomNav.dart';
-import 'screens/homepage.dart';
+import 'package:movieapp/screens/splashscreen.dart';
 
 void main() {
   runApp(Myapp());
@@ -14,7 +14,7 @@ class Myapp extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
           //bottomNavigationBar: BottomNav(),
-          body: Homepage(),
+          body: SplashScreen(),
         ),
       ),
     );

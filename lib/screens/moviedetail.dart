@@ -31,13 +31,22 @@ class MovieDetail extends StatelessWidget {
                 children: [
                   Text(
                     detail.title,
+                    textAlign: TextAlign.justify,
                     style: TextStyle(
                         fontSize: 38, color: Colors.white.withOpacity(.8)),
                   ),
                   Text(
                     detail.tagline,
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(.8),
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    detail.release,
+                    style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(
                     height: 20,

@@ -4,99 +4,79 @@ import 'package:movieapp/networking/homefetch.dart';
 import 'package:movieapp/networking/moviedDetailsfetch.dart';
 
 import 'package:movieapp/screens/moviedetail.dart';
+import 'package:movieapp/screens/splashscreen.dart';
 
 class Homepage extends StatefulWidget {
+  List<HomeCard> results;
+  int len;
+  Homepage(this.results);
   @override
   _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
-  List<HomeCard> results;
-  int len;
+  ScrollController _mycontroller;
   @override
   void initState() {
-    //Future results = fetchhome();
-    // print(results);
-    receive();
+    // TODO: implement initState
+
     super.initState();
-  }
-
-  void receive() async {
-    try {
-      results = await fetchhome();
-      setState(() {
-        len = results.length;
-      });
-
-      print(len);
-    } catch (err) {
-      print(err);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.width * .03,
-            top: MediaQuery.of(context).size.width * .03,
-          ),
-          child: Text(
-            "Upcoming",
-            style: TextStyle(
-              color: Colors.white.withOpacity(.65),
-              fontSize: 40,
-              fontWeight: FontWeight.w500,
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * .03,
+              top: MediaQuery.of(context).size.width * .08,
+            ),
+            child: Text(
+              "Discover",
+              style: TextStyle(
+                color: Colors.white.withOpacity(.65),
+                fontSize: 40,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.width * .03,
-        ),
-        Horizontal_Dropdown(),
-        Expanded(
-          child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: .58,
-              ),
-              itemCount: len,
-              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .03),
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () async {
-                    print(results[index].id);
-                    await detailsFetch(results[index].id);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MovieDetail(id: results[index].id),
-                        ));
-                  },
-                  child: Container(
-                    margin:
-                        EdgeInsets.all(MediaQuery.of(context).size.width * .01),
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
-                      ),
-                    ),
-                    // padding:
-                    // EdgeInsets.all(MediaQuery.of(context).size.width * .03),
+          SizedBox(
+            height: MediaQuery.of(context).size.width * .03,
+          ),
+          //Horizontal_Dropdown(),
+          Expanded(
+            child: GridView.builder(
+                controller: _mycontroller,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: .5,
+                    crossAxisSpacing: MediaQuery.of(context).size.width * .04),
+                itemCount: results.length,
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * .03),
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      print(results[index].id);
+                      await detailsFetch(results[index].id);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MovieDetail(id: results[index].id),
+                          ));
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        ClipRect(
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
                           child: //Image.asset('images/img.jpg'),
                               Image.network(
                             'https://image.tmdb.org/t/p/w500/${results[index].poster}',
@@ -104,14 +84,18 @@ class _HomepageState extends State<Homepage> {
                             //height: 150,
                           ),
                         ),
-                        Text(results[index].name),
+                        Text(
+                          results[index].name,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ],
                     ),
-                  ),
-                );
-              }),
-        )
-      ],
+                  );
+                }),
+          )
+        ],
+      ),
     );
   }
 }

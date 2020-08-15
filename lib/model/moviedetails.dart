@@ -4,6 +4,12 @@ class Moviedetails {
   String overview;
   String poster;
   List genre;
+  String release;
   Moviedetails(
-      {this.overview, this.poster, this.tagline, this.title, this.genre});
+      {this.overview,
+      this.poster,
+      this.tagline,
+      this.title,
+      this.genre,
+      this.release});
 }
